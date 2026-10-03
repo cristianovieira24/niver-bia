@@ -64,3 +64,44 @@ h2{font-family:Editorial,Georgia,serif;font-weight:400;font-size:30px;line-heigh
 .script-initial{font-family:Editorial,Georgia,serif;font-style:italic;line-height:1;letter-spacing:-.08em}.script-initial.one{font-size:clamp(180px,23vw,350px);left:5%;top:8%;rotate:-13deg;color:transparent;-webkit-text-stroke:1px #af8548;opacity:.46}.script-initial.two{font-size:clamp(160px,20vw,300px);right:5%;bottom:6%;rotate:13deg;color:transparent;-webkit-text-stroke:.8px #af8548;opacity:.4}.gold-photo-word{font-size:72px;line-height:1;left:12%;bottom:3%;opacity:.22;color:transparent;-webkit-text-stroke:.6px #e0bf7b;rotate:-12deg}.ambient-doodles{position:absolute;inset:0;pointer-events:none;color:#ac8043}.ambient-doodles svg{position:absolute;fill:none;opacity:.6;animation:gold-writing-float 9s ease-in-out infinite}.ornament-crown{left:16%;top:9%;width:43px;height:43px;rotate:-15deg}.ornament-heart{right:17%;bottom:8%;width:37px;height:37px;rotate:15deg;animation-delay:-3s!important}.ornament-stars{right:9%;top:25%;width:42px;height:42px;animation-delay:-6s!important}.ornament-flower{left:10%;bottom:20%;width:35px;height:35px;animation-delay:-2s!important}
 @media(max-width:700px){.script-initial.one{left:-32px;top:3%;font-size:195px;opacity:.34}.script-initial.two{right:-24px;bottom:3%;font-size:170px;opacity:.3}.gold-photo-word{font-size:54px;bottom:4%}.ornament-crown{left:8%;top:5%;width:29px;height:29px}.ornament-heart{right:8%;bottom:5%;width:26px;height:26px}.ornament-stars{right:3%;top:23%;width:28px;height:28px}.ornament-flower{left:2%;bottom:23%;width:25px;height:25px}}
 @media(prefers-reduced-motion:reduce){.ambient-doodles svg{animation:none!important}}
+
+
+/* Interactive card stack: the card you point to/click comes forward. */
+.invitation>.card-photo,
+.invitation>.card-info{
+  cursor:pointer;
+  transition:translate .65s cubic-bezier(.16,1,.3,1),box-shadow .65s ease;
+  will-change:translate;
+}
+.invitation>.card-photo.is-front{
+  z-index:4;
+  translate:0 -30px;
+}
+.invitation>.card-photo.is-back{
+  z-index:1;
+  translate:0 8px;
+}
+.invitation>.card-info.is-front{
+  z-index:3;
+  translate:0 0;
+}
+.invitation>.card-info.is-back{
+  z-index:2;
+  translate:0 26px;
+}
+.invitation>.card-photo.is-front .polaroid{
+  box-shadow:0 20px 38px #5c2c3d38;
+}
+.invitation>.card-info.is-front{
+  box-shadow:0 -5px 15px #542c3c13,0 22px 42px #542c3c3b;
+}
+@media(max-width:700px){
+  .invitation>.card-photo.is-front{translate:0 -22px}
+  .invitation>.card-photo.is-back{translate:0 5px}
+  .invitation>.card-info.is-front{translate:0 0}
+  .invitation>.card-info.is-back{translate:0 18px}
+}
+@media(prefers-reduced-motion:reduce){
+  .invitation>.card-photo,
+  .invitation>.card-info{transition:none}
+}
