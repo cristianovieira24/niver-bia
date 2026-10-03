@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1790971369594,
+      "tag": "0000_brief_living_tribunal",
+      "breakpoints": true
+    }
+  ]
+}
