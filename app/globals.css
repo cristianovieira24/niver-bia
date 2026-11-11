@@ -105,3 +105,7 @@ h2{font-family:Editorial,Georgia,serif;font-weight:400;font-size:30px;line-heigh
   .invitation>.card-photo,
   .invitation>.card-info{transition:none}
 }
+
+/* Let the information card accommodate the complete venue address. */
+.invitation>.card-info{height:auto;min-height:75cqw;max-height:none;flex-basis:auto}
+.date-column .location{line-height:1.35;overflow-wrap:break-word}
