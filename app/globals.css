@@ -119,3 +119,7 @@ h2{font-family:Editorial,Georgia,serif;font-weight:400;font-size:30px;line-heigh
 @media(max-width:700px){.map-link{font-size:11px;padding-inline:3px}.receipt-note{font-size:11px}.invitation>.card-info{padding-bottom:6cqw}.rsvp-page{overflow-wrap:anywhere}.guest-fields input{scroll-margin-block:24px}}
 @media(max-height:600px) and (max-width:700px){.rsvp-page{justify-content:flex-start!important;padding-top:36px!important;padding-bottom:40px!important;min-height:100svh;height:auto!important}.rsvp-page .guest-fields{max-height:40svh}}
 @media(max-height:600px) and (max-width:700px){.rsvp-page .back{top:-26px}.rsvp-page>.footer-ribbon,.rsvp-page>.doodle-play{display:none}}
+
+/* Close portrait: preserve the full face and leave room for the wordmark. */
+.photo-window .portrait{width:72%;height:108%;right:-5%;top:2%;object-fit:contain;object-position:50% 0}
+.letter-photo img{object-fit:contain;object-position:50% 100%}
