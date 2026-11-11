@@ -121,5 +121,5 @@ h2{font-family:Editorial,Georgia,serif;font-weight:400;font-size:30px;line-heigh
 @media(max-height:600px) and (max-width:700px){.rsvp-page .back{top:-26px}.rsvp-page>.footer-ribbon,.rsvp-page>.doodle-play{display:none}}
 
 /* Close portrait: preserve the full face and leave room for the wordmark. */
-.photo-window .portrait{width:72%;height:108%;right:-5%;top:2%;object-fit:contain;object-position:50% 0}
+.photo-window .portrait{width:65%;height:96%;right:0;top:2%;object-fit:contain;object-position:50% 50%}
 .letter-photo img{object-fit:contain;object-position:50% 100%}
