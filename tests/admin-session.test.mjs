@@ -1,0 +1,10 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { scryptSync } from 'node:crypto';
+import { makeSession, validSession, validPassword, sign } from '../lib/admin-session.ts';
+process.env.ADMIN_SESSION_SECRET = 'test-only-secret-not-a-production-secret';
+process.env.ADMIN_PASSWORD_HASH = 'test-salt:' + scryptSync('test-only-password', 'test-salt', 64).toString('hex');
+test('validates password hash and rejects wrong password', () => { assert.ok(validPassword('test-only-password')); assert.ok(!validPassword('wrong')); });
+test('accepts fresh signed session and rejects altered or missing signatures', () => { const token = makeSession(); assert.ok(validSession(token)); assert.ok(!validSession(token + 'x')); assert.ok(!validSession(undefined)); assert.ok(!validSession(token.split('.').slice(0,2).join('.'))); });
+test('rejects expired or implausibly long sessions even when signed', () => { for (const expiry of [Math.floor(Date.now()/1000)-1, Math.floor(Date.now()/1000)+86400]) { const payload = `${expiry}.test-nonce`; assert.ok(!validSession(`${payload}.${sign(payload)}`)); } });
+test('rotating secret invalidates existing sessions', () => { const token = makeSession(); const previous = process.env.ADMIN_SESSION_SECRET; process.env.ADMIN_SESSION_SECRET = 'a-different-secret'; assert.ok(!validSession(token)); process.env.ADMIN_SESSION_SECRET = previous; });
