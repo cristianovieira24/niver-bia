@@ -123,3 +123,9 @@ h2{font-family:Editorial,Georgia,serif;font-weight:400;font-size:30px;line-heigh
 /* Close portrait: preserve the full face and leave room for the wordmark. */
 .photo-window .portrait{width:65%;height:96%;right:0;top:2%;object-fit:contain;object-position:50% 50%}
 .letter-photo img{object-fit:contain;object-position:50% 100%}
+
+/* Give the oval portrait a balanced position and its own mouse parallax. */
+.photo-window .portrait{width:66%;height:100%;right:1%;top:0;object-fit:contain;object-position:50% 50%;translate:0 0;transform:perspective(900px) translate3d(calc(var(--mx)*12px),calc(var(--my)*8px),0) rotateY(calc(var(--mx)*5deg)) rotateX(calc(var(--my)*-3deg));transform-origin:50% 55%;will-change:transform}
+.brand{left:3%;width:39%;top:28%}
+@media(max-width:700px){.photo-window .portrait{right:0;width:68%}.brand{left:3%;width:38%;top:29%}}
+@media(prefers-reduced-motion:reduce){.photo-window .portrait{transform:none!important;will-change:auto}}
