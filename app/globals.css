@@ -129,3 +129,8 @@ h2{font-family:Editorial,Georgia,serif;font-weight:400;font-size:30px;line-heigh
 .brand{left:3%;width:39%;top:28%}
 @media(max-width:700px){.photo-window .portrait{right:0;width:68%}.brand{left:3%;width:38%;top:29%}}
 @media(prefers-reduced-motion:reduce){.photo-window .portrait{transform:none!important;will-change:auto}}
+
+/* Balance visible artwork margins, rather than the transparent image box. */
+.photo-window .portrait{right:5%;object-position:100% 50%}
+.brand{left:6%;width:39%;top:28%}
+@media(max-width:700px){.photo-window .portrait{right:5%;width:66%}.brand{left:6%;width:38%;top:29%}}
