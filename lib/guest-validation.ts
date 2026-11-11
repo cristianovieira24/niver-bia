@@ -11,3 +11,16 @@ export function csvCell(value: unknown): string {
   if (/^[\s]*[=+@-]/.test(text)) text = "'" + text;
   return '"' + text.replaceAll('"', '""') + '"';
 }
+
+export const RSVP_STORAGE_KEY = 'niver-da-be:2026:confirmation:v1';
+export function parseSavedRequest(raw: string | null): string | null {
+  if (!raw || raw.length > 256) return null;
+  try {
+    const saved = JSON.parse(raw);
+    return saved?.version === 1 && typeof saved.requestId === 'string' && GROUP_ID.test(saved.requestId) ? saved.requestId : null;
+  } catch { return null; }
+}
+export function savedRequestValue(requestId: string): string {
+  if (!GROUP_ID.test(requestId)) throw new Error('Identificador inválido.');
+  return JSON.stringify({ version: 1, requestId });
+}

@@ -22,3 +22,18 @@ export async function POST(request: Request) {
     return Response.json({ ok: true, count: saved.names.length }, { status: 201, headers: { 'Cache-Control': 'no-store' } });
   } catch { console.error('Attendance storage unavailable'); return Response.json({ error: 'A confirmação está temporariamente indisponível. Tente novamente mais tarde.' }, { status: 503 }); }
 }
+
+// The unguessable request ID is a receipt capability kept only in this browser.
+// It is sent in a header, never in a URL, and cannot enumerate other groups.
+export async function GET(request: Request) {
+  const headers = { 'Cache-Control': 'private, no-store', 'Vary': 'X-Confirmation-Id' };
+  const id = request.headers.get('x-confirmation-id');
+  if (!id || !GROUP_ID.test(id)) return Response.json({ error: 'Confirmação inválida.' }, { status: 400, headers });
+  try {
+    await ensureGuestDatabase();
+    const sql = database();
+    const [group] = await sql`SELECT names, status FROM attendance_groups WHERE id = ${id} AND event_date = ${EVENT_DATE}`;
+    if (!group) return Response.json({ error: 'Confirmação não encontrada.' }, { status: 404, headers });
+    return Response.json({ names: group.names, status: group.status }, { headers });
+  } catch { return Response.json({ error: 'Não foi possível verificar sua confirmação agora.' }, { status: 503, headers }); }
+}

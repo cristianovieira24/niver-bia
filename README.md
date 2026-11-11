@@ -33,3 +33,11 @@ Node 22.13+ e pnpm. `pnpm install --no-frozen-lockfile`, `pnpm dev`, `pnpm build
 Testes de validação e exportação: `node --experimental-strip-types --test tests/*.test.mjs`.
 
 Para validar produção, confirme um grupo identificado como teste, confira os nomes e totais no painel, edite, cancele e restaure. Confira também que `/api/admin/guests` e a exportação respondem 401 sem sessão. Cancele o grupo de teste ao terminar.
+
+## Conveniências do convite
+
+- “Como chegar” pesquisa o endereço completo em São José/SC no Google Maps.
+- Novas confirmações guardam somente o identificador aleatório do grupo no armazenamento deste navegador (chave versionada por evento). Os nomes e o status são consultados no servidor por um cabeçalho privado, sem identificadores no URL e sem respostas em cache. Outro aparelho ou a limpeza do armazenamento não recuperam essa lembrança.
+- O identificador também é reutilizado depois de uma tentativa interrompida, evitando duplicar o mesmo envio ao recarregar o convite.
+- O ADM sinaliza nomes completos iguais, ignorando espaços, maiúsculas e acentos, apenas nos grupos confirmados. É um aviso para revisão: homônimos não são bloqueados nem excluídos automaticamente.
+- O ADM atualiza a lista a cada 30 segundos enquanto está visível e ao retomar a aba. A atualização pausa durante edição, confirmação de cancelamento e operações de gravação. Falhas de atualização mantêm os últimos dados e mostram um aviso.
