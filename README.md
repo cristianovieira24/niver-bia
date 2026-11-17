@@ -6,7 +6,7 @@ Convite de aniversário com envelope animado, confirmação em grupos e painel p
 
 - Convite: https://niver-bia.vercel.app/
 - Administração: https://niver-bia.vercel.app/admin
-- Evento: 19/12/2026 às 14h, horário de São Paulo.
+- Evento: 19/12/2026 às 18h, horário de São Paulo.
 
 O painel permite buscar pessoas, consultar totais, editar nomes e acompanhantes, cancelar/restaurar um grupo e exportar todos os registros como CSV (com status). Cancelar não apaga o histórico. A edição usa versão para evitar que duas sessões sobrescrevam a mesma alteração.
 

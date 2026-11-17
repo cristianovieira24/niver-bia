@@ -1,4 +1,4 @@
-export const EVENT_DATE = '2026-12-19T14:00:00-03:00';
+export const EVENT_DATE = '2026-12-19T18:00:00-03:00';
 export const GROUP_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 export function normalizeNames(input: unknown): string[] {
   if (!Array.isArray(input) || input.length < 1 || input.length > 20) throw new Error('Informe de 1 a 20 pessoas.');
