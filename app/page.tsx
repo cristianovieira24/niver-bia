@@ -33,7 +33,7 @@ export default function Home(){
    request.current=id;
    try{
     const response=await fetch('/api/presenca',{headers:{'X-Confirmation-Id':id},cache:'no-store',signal:controller.signal});
-    if(response.status===404){if(!controller.signal.aborted)setCheckingReceipt(false);return}
+    if(response.status===404){if(!controller.signal.aborted){request.current='';try{window.localStorage.removeItem(RSVP_STORAGE_KEY)}catch{setCanRemember(false)}setCheckingReceipt(false)}return}
     if(!response.ok)throw new Error();
     const saved=await response.json() as Receipt;
     if(controller.signal.aborted)return;

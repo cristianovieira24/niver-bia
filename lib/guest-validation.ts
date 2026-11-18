@@ -1,3 +1,5 @@
+// Event membership follows the calendar day, independently of schedule changes.
+export const EVENT_DAY = '2026-12-19';
 export const EVENT_DATE = '2026-12-19T18:00:00-03:00';
 export const GROUP_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 export function normalizeNames(input: unknown): string[] {

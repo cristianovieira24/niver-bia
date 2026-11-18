@@ -1,5 +1,5 @@
 import { database, ensureGuestDatabase } from '@/lib/guest-db';
-import { EVENT_DATE, GROUP_ID, normalizeNames } from '@/lib/guest-validation';
+import { EVENT_DAY, EVENT_DATE, GROUP_ID, normalizeNames } from '@/lib/guest-validation';
 import { readJson } from '@/lib/request-json';
 export const runtime = 'nodejs';
 export async function POST(request: Request) {
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     await ensureGuestDatabase();
     const sql = database();
     await sql`INSERT INTO attendance_groups (id, names, event_date) VALUES (${requestId}, ${JSON.stringify(names)}::jsonb, ${EVENT_DATE}) ON CONFLICT (id) DO NOTHING`;
-    const [saved] = await sql`SELECT names, status FROM attendance_groups WHERE id = ${requestId} AND event_date = ${EVENT_DATE}`;
+    const [saved] = await sql`SELECT names, status FROM attendance_groups WHERE id = ${requestId} AND split_part(event_date, 'T', 1) = ${EVENT_DAY}`;
     if (!saved || saved.status !== 'confirmed' || JSON.stringify(saved.names) !== JSON.stringify(names)) return Response.json({ error: 'Esta confirmação já foi registrada com outros dados. Abra o formulário novamente.' }, { status: 409 });
     return Response.json({ ok: true, count: saved.names.length }, { status: 201, headers: { 'Cache-Control': 'no-store' } });
   } catch { console.error('Attendance storage unavailable'); return Response.json({ error: 'A confirmação está temporariamente indisponível. Tente novamente mais tarde.' }, { status: 503 }); }
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
   try {
     await ensureGuestDatabase();
     const sql = database();
-    const [group] = await sql`SELECT names, status FROM attendance_groups WHERE id = ${id} AND event_date = ${EVENT_DATE}`;
+    const [group] = await sql`SELECT names, status FROM attendance_groups WHERE id = ${id} AND split_part(event_date, 'T', 1) = ${EVENT_DAY}`;
     if (!group) return Response.json({ error: 'Confirmação não encontrada.' }, { status: 404, headers });
     return Response.json({ names: group.names, status: group.status }, { headers });
   } catch { return Response.json({ error: 'Não foi possível verificar sua confirmação agora.' }, { status: 503, headers }); }

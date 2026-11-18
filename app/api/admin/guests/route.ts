@@ -1,6 +1,6 @@
 import { isAdmin, sameOrigin } from '@/lib/admin-auth';
 import { database, guestGroups } from '@/lib/guest-db';
-import { csvCell, EVENT_DATE, GROUP_ID, normalizeNames } from '@/lib/guest-validation';
+import { csvCell, EVENT_DAY, GROUP_ID, normalizeNames } from '@/lib/guest-validation';
 import { readJson } from '@/lib/request-json';
 export const runtime = 'nodejs';
 const headers = { 'Cache-Control': 'no-store' };
@@ -28,7 +28,7 @@ export async function PATCH(request: Request) {
   } catch (error) { return Response.json({ error: error instanceof Error ? error.message : 'Dados inválidos.' }, { status: 400, headers }); }
   try {
     const sql = database();
-    const rows = await sql`UPDATE attendance_groups SET names = ${JSON.stringify(names)}::jsonb, status = ${status}, updated_at = NOW(), version = version + 1 WHERE id = ${id} AND event_date = ${EVENT_DATE} AND version = ${version} RETURNING id`;
+    const rows = await sql`UPDATE attendance_groups SET names = ${JSON.stringify(names)}::jsonb, status = ${status}, updated_at = NOW(), version = version + 1 WHERE id = ${id} AND split_part(event_date, 'T', 1) = ${EVENT_DAY} AND version = ${version} RETURNING id`;
     if (!rows.length) return Response.json({ error: 'Este grupo foi alterado em outra sessão. Atualize a lista e tente novamente.' }, { status: 409, headers });
     return Response.json({ ok: true }, { headers });
   } catch { return Response.json({ error: 'Não foi possível salvar. Tente novamente.' }, { status: 503, headers }); }

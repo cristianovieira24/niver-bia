@@ -1,5 +1,5 @@
 import { neon } from '@neondatabase/serverless';
-import { EVENT_DATE } from './guest-validation';
+import { EVENT_DAY } from './guest-validation';
 export type GuestGroup = { id: string; names: string[]; status: 'confirmed' | 'cancelled'; created_at: string; updated_at: string; version: number };
 let initialized: Promise<void> | undefined;
 export function database() {
@@ -20,7 +20,7 @@ export async function ensureGuestDatabase() {
       sql`CREATE TABLE IF NOT EXISTS admin_login_limits (key TEXT PRIMARY KEY, attempts INTEGER NOT NULL, expires_at TIMESTAMPTZ NOT NULL)`,
       sql`INSERT INTO attendance_groups (id, names, event_date, created_at, updated_at)
         SELECT split_part(id, ':', 1), jsonb_agg(name ORDER BY CASE WHEN strpos(id, ':') = 0 THEN 0 ELSE split_part(id, ':', 2)::integer END), event_date, MIN(created_at)::timestamptz, MAX(created_at)::timestamptz
-        FROM attendance WHERE event_date = ${EVENT_DATE}
+        FROM attendance WHERE split_part(event_date, 'T', 1) = ${EVENT_DAY}
         GROUP BY split_part(id, ':', 1), event_date ON CONFLICT (id) DO NOTHING`
     ]);
   })().catch(error => { initialized = undefined; throw error; });
@@ -29,5 +29,5 @@ export async function ensureGuestDatabase() {
 export async function guestGroups(): Promise<GuestGroup[]> {
   await ensureGuestDatabase();
   const sql = database();
-  return await sql`SELECT id, names, status, created_at, updated_at, version FROM attendance_groups WHERE event_date = ${EVENT_DATE} ORDER BY created_at DESC, id` as GuestGroup[];
+  return await sql`SELECT id, names, status, created_at, updated_at, version FROM attendance_groups WHERE split_part(event_date, 'T', 1) = ${EVENT_DAY} ORDER BY created_at DESC, id` as GuestGroup[];
 }
